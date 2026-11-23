@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f4c81">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="化学スキャン">
+<meta name="description" content="自分の穴を最速で見つけるスキャナー。高校化学（理論・無機・有機）の無料ドリル＆カード図鑑。">
+<meta property="og:title" content="化学スキャン｜総点検ドリル">
+<meta property="og:description" content="登録不要・完全無料。3分野横断の総点検で、穴のある講だけを炙り出す高校化学ドリル。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="ogp.png">
+<meta name="twitter:card" content="summary">
+<title>化学スキャン｜総点検ドリル</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">化学スキャン</div>
+  <div class="sub">自分の穴を最速で見つけるスキャナー</div>
+</header>
+
+<main id="app">
+  <!-- ホーム -->
+  <section id="view-home" class="view">
+    <div class="hero">
+      <button id="btn-total" class="btn primary big">総点検スタート</button>
+      <div class="hero-note">3分野横断・ランダム10問。「わかっているつもり」を壊して、穴のある講だけを炙り出します。開いて10秒で1問目へ。</div>
+      <button id="btn-resume" class="btn big">前回の続き</button>
+      <div class="field-filter" id="total-filters">
+        <span>総点検の分野：</span>
+        <label><input type="checkbox" data-field="theory" checked> 理論</label>
+        <label><input type="checkbox" data-field="inorganic" checked> 無機</label>
+        <label><input type="checkbox" data-field="organic" checked> 有機</label>
+      </div>
+    </div>
+    <div class="card">
+      <h2>今日の10問 <span id="daily-date" class="muted"></span></h2>
+      <p class="muted">日替わりで、その日は全員が同じ10問。毎日の習慣づけと、友だちとの共通話題にどうぞ。</p>
+      <button id="btn-daily" class="btn primary">今日の10問を解く</button>
+    </div>
+    <div class="card">
+      <h2>苦手リスト <span id="weak-count" class="badge">0</span></h2>
+      <p class="muted">間違えた問題がたまる場所。ここから再出題できます。</p>
+      <button id="btn-weak" class="btn">苦手リストを解く</button>
+      <button id="btn-weak-clear" class="btn ghost">苦手をリセット</button>
+    </div>
+    <div class="card">
+      <h2>分野別ドリル</h2>
+      <div id="field-list" class="field-list"></div>
+    </div>
+    <div class="card">
+      <h2>物質・用語の検索とカード</h2>
+      <input id="search" type="search" placeholder="物質名・用語で検索（例：エタノール、Ag+、モル）" aria-label="カード検索">
+      <div id="card-list" class="card-list"></div>
+    </div>
+    <div class="card">
+      <h2>全体マップ／進捗</h2>
+      <p class="muted">講ごとの習熟度。緑＝穴なし、赤＝穴あり。タップでその講のドリルへ。</p>
+      <div id="map-home"></div>
+      <button id="btn-map" class="btn">マップを大きく見る</button>
+    </div>
+    <div class="card">
+      <h2>購入者特典</h2>
+      <p class="muted" id="premium-summary">まとめノート購入者向けの特典があります。購入した商品に載っている解除コードを入力すると、復習管理・模試モード・PDF連携と、その本の問題プール（順次追加中）が解放されます。このアプリの今の機能は、コードなしで全部無料で使えます。</p>
+      <button id="btn-premium-open" class="btn primary">特典の解放・利用はこちら</button>
+      <p class="muted"><a href="https://note.com/kagaku0808/n/nac78dab81a42" target="_blank" rel="noopener">まとめノートのご案内はこちら</a></p>
+    </div>
+    <p class="foot">無料の学習アプリ（プロトタイプ）。深い解説は入れていません。「なぜ」と解き方は、まとめノート（受験化学まとめノート）で。</p>
+  </section>
+
+  <!-- ドリル -->
+  <section id="view-drill" class="view hidden">
+    <div class="drill-head">
+      <button id="btn-drill-quit" class="btn ghost small">やめる</button>
+      <div id="drill-progress" class="progress-text"></div>
+      <div id="drill-timer" class="progress-text"></div>
+      <div id="drill-score" class="progress-text"></div>
+    </div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <div id="question-box" class="card qbox">
+      <div id="q-meta" class="qmeta"></div>
+      <div id="q-pdfref" class="pdfref hidden"></div>
+      <p class="recall">まず頭の中で答えを思い浮かべてから、タップしてください。</p>
+      <h2 id="q-text"></h2>
+      <div id="q-choices" class="choices"></div>
+      <div id="q-numeric" class="numeric hidden">
+        <input id="num-input" type="number" step="any" inputmode="decimal" placeholder="数値を入力">
+        <span id="num-unit"></span>
+        <button id="btn-num-check" class="btn primary">答え合わせ</button>
+      </div>
+      <div id="q-feedback" class="feedback hidden"></div>
+      <div id="q-actions" class="hidden">
+        <button id="btn-q-card" class="btn">カードで確認</button>
+        <button id="btn-q-next" class="btn primary">次の問題へ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="view-result" class="view hidden">
+    <div class="card">
+      <h2 id="result-title">総点検の結果</h2>
+      <p id="result-score" class="big-score"></p>
+      <p id="result-msg"></p>
+      <div id="result-fields"></div>
+      <h3>弱点マップ</h3>
+      <canvas id="result-canvas" width="1080" height="760"></canvas>
+      <div class="row">
+        <button id="btn-share-img" class="btn primary">結果を画像でシェア</button>
+        <button id="btn-save-img" class="btn">結果画像を保存</button>
+        <button id="btn-retry-wrong" class="btn">間違えた問題をもう一度</button>
+      </div>
+      <p id="result-guide" class="guide"></p>
+      <p id="result-teaser" class="teaser hidden"></p>
+      <button id="btn-home2" class="btn primary big">ホームへ戻る</button>
+    </div>
+  </section>
+
+  <!-- カード詳細 -->
+  <section id="view-card" class="view hidden">
+    <button id="btn-card-back" class="btn ghost small">← カード一覧へ</button>
+    <div class="card" id="card-detail"></div>
+  </section>
+
+  <!-- 購入者特典 -->
+  <section id="view-premium" class="view hidden">
+    <button id="btn-premium-back" class="btn ghost small">← ホームへ</button>
+    <div class="card">
+      <h2>購入者特典の解放</h2>
+      <p class="muted">まとめノート／総合問題集を購入した方への特典です。購入した商品の「アプリ特典コード」（noteの方は記事の有料エリア内、BOOTHの方は商品説明内）に載っているコードを入力してください。どれか1冊のコードで、機能（復習管理・模試モード・PDF連携）が解放されます。問題プールは本ごとに順次追加中です（下の一覧で収録状況を確認できます）。</p>
+      <p class="muted">端末を変えたときや記録が消えたときは、同じコードをもう一度入力すれば復旧できます。コードは購入したご本人のみが使ってください。</p>
+      <div class="unlock-box">
+        <input id="unlock-code" type="text" placeholder="解除コードを入力" aria-label="解除コード" autocomplete="off" autocapitalize="characters">
+        <button id="btn-unlock" class="btn primary">解放する</button>
+      </div>
+      <p id="unlock-msg" class="unlock-msg"></p>
+      <p id="premium-feature-state" class="muted"></p>
+    </div>
+    <div class="card hidden" id="premium-tools">
+      <h2>特典ツール</h2>
+      <h3>復習管理（忘却曲線）</h3>
+      <p class="muted">間違えた問題を、1日後・3日後・7日後・14日後・30日後の間隔で出し直します。今日の復習：<b><span id="review-due-count">0</span>問</b></p>
+      <button id="btn-review-start" class="btn primary">今日の復習をはじめる</button>
+      <h3>模試モード</h3>
+      <p class="muted">全分野から横断でランダム出題。制限時間つきで、時間切れになると自動で終了します。</p>
+      <div class="exam-settings">
+        <label>問題数
+          <select id="exam-count">
+            <option value="10">10問</option>
+            <option value="20" selected>20問</option>
+            <option value="30">30問</option>
+          </select>
+        </label>
+        <label>制限時間
+          <select id="exam-minutes">
+            <option value="10">10分</option>
+            <option value="20" selected>20分</option>
+            <option value="30">30分</option>
+            <option value="45">45分</option>
+          </select>
+        </label>
+      </div>
+      <button id="btn-exam-start" class="btn primary">模試をはじめる</button>
+      <h3>特典問題プール</h3>
+      <p class="muted">解放済みの本の問題をドリル形式で収録しています。問題にはまとめノートの該当ページへの参照（PDF連携）が付きます。</p>
+      <button id="btn-pool-theory" class="btn">特典問題ドリル（理論編）</button>
+    </div>
+    <div class="card">
+      <h2>商品ごとの特典の内容</h2>
+      <div id="premium-products"></div>
+      <p class="muted">「問題プールは準備中」の本は、コードで機能が解放されますが、その本の問題はまだ収録されていません。収録が済んだ本から順次追加していきます。</p>
+    </div>
+  </section>
+
+  <!-- マップ -->
+  <section id="view-map" class="view hidden">
+    <button id="btn-map-back" class="btn ghost small">← ホームへ</button>
+    <div class="card">
+      <h2>全体マップ／進捗</h2>
+      <div id="map-full"></div>
+      <p class="muted">色はその講の正答率です。未挑戦はグレー。タップでその講のドリルが始まります。</p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button data-view="home" class="tab active">ホーム</button>
+  <button data-view="drill-total" class="tab">総点検</button>
+  <button data-view="cards" class="tab">カード</button>
+  <button data-view="map" class="tab">マップ</button>
+</nav>
+
+<script src="data.js"></script>
+<script src="premium-config.js"></script>
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
