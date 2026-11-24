@@ -67,12 +67,11 @@ h3 { font-size: 1rem; margin: 14px 0 6px; }
 .point .plabel { font-weight: 700; }
 .point .ptext { margin: 4px 0 0; }
 .blind {
-  background: #22303c; color: #22303c; border-radius: 6px; padding: 2px 8px;
+  background: #22303c; color: #22303c; border-radius: 6px; padding: 1px 7px;
   cursor: pointer; user-select: none;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
-.blind::after { content: "タップで開示"; color: #fff; font-size: .85rem; }
 .blind.open { background: #fff8e1; color: var(--ink); }
-.blind.open::after { content: ""; }
 .lecture { margin: 6px 0; }
 .lecture button {
   width: 100%; text-align: left; min-height: 48px; font-size: 1rem;
