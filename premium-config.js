@@ -16,7 +16,7 @@ window.CHEM_PREMIUM_CONFIG = {
    "id": "organic",
    "name": "まとめノート 有機本編",
    "hash": "6f83a0d3363f9fd4b100c4ddba6a59af26ca31bde7d06087a5c1a82008257bab",
-   "desc": "コードで機能（復習管理・模試モード・PDF連携）は解放されます。この本の問題プールは準備中・順次追加です。"
+   "desc": "コードで機能（復習管理・模試モード・PDF連携）と、有機編 本編の問題プール202問が解放されます。"
   },
   {
    "id": "organic-adv",
@@ -46,7 +46,7 @@ window.CHEM_PREMIUM_CONFIG = {
    "id": "bundle",
    "name": "まとめノート 合本（全4冊セット）",
    "hash": "3e1e517301918a603a671e73d6a6b655d8b8797320cdcb2599ce4cf7a999280e",
-   "desc": "コードで機能（復習管理・模試モード・PDF連携）は解放されます。本編4冊分の問題は順次追加中で、理論編・無機編は収録済みです（理論編プール164問・無機編プール56問が解放されます）。"
+   "desc": "コードで機能（復習管理・模試モード・PDF連携）は解放されます。本編4冊分の問題は順次追加中で、理論編・無機編・有機編 本編は収録済みです（理論編プール164問・無機編プール56問・有機編 本編プール202問が解放されます）。"
   }
  ],
  "pools": {
@@ -70,6 +70,17 @@ window.CHEM_PREMIUM_CONFIG = {
    "wrapped": {
     "inorganic": "e4Fpbk87uCU8sZCTkh140DkfFaUP4A3aOyoosBim5WM=",
     "bundle": "MKxMXwotabKorIP7vVtUw+rbX/PWrJA73o5xN+eAoc0="
+   }
+  },
+  "organic": {
+   "file": "premium-organic.js",
+   "count": 202,
+   "noteName": "まとめノート 有機本編",
+   "noteUrl": "https://note.com/kagaku0808/n/n85983fde5075",
+   "checksum": "1315d13f1f366426d118fed0adbe5dae55acf985b1fadfa2e254d70eee620deb",
+   "wrapped": {
+    "organic": "kK9/219Odo/NSVJ13dVp/FwwChjhroa10eYdojYMl3k=",
+    "bundle": "K35E/DrRDbiuDdp5/o3h9meryctfZ2LYTpy6SdOkdmw="
    }
   }
  }
