@@ -10,7 +10,7 @@ window.CHEM_PREMIUM_CONFIG = {
    "id": "inorganic",
    "name": "まとめノート 無機編",
    "hash": "718e578f54498655933075fb5233803d6a593727e66505b0438d4ea8fb4bf58e",
-   "desc": "コードで機能（復習管理・模試モード・PDF連携）は解放されます。この本の問題プールは準備中・順次追加です。"
+   "desc": "コードで機能（復習管理・模試モード・PDF連携）と、無機編の問題プール56問が解放されます。"
   },
   {
    "id": "organic",
@@ -46,7 +46,7 @@ window.CHEM_PREMIUM_CONFIG = {
    "id": "bundle",
    "name": "まとめノート 合本（全4冊セット）",
    "hash": "3e1e517301918a603a671e73d6a6b655d8b8797320cdcb2599ce4cf7a999280e",
-   "desc": "コードで機能（復習管理・模試モード・PDF連携）は解放されます。本編4冊分の問題は順次追加中で、理論編は収録済みです（理論編プール164問が解放されます）。"
+   "desc": "コードで機能（復習管理・模試モード・PDF連携）は解放されます。本編4冊分の問題は順次追加中で、理論編・無機編は収録済みです（理論編プール164問・無機編プール56問が解放されます）。"
   }
  ],
  "pools": {
@@ -59,6 +59,17 @@ window.CHEM_PREMIUM_CONFIG = {
    "wrapped": {
     "theory": "C4Ubm7X5VrZA3n+oBNTdZ33WzXrq5u8c9ku7KZ9brbA=",
     "bundle": "4qb7fuM6a4d3U+dFWSzKofzdw0Axn8ZTyztCmdie7H4="
+   }
+  },
+  "inorganic": {
+   "file": "premium-inorganic.js",
+   "count": 56,
+   "noteName": "まとめノート 無機編",
+   "noteUrl": "https://note.com/kagaku0808/n/n5705de7118fb",
+   "checksum": "e269f9b3d1ed6bced152bd5078251d080f2765057d740f9cd3870285d56e1d6c",
+   "wrapped": {
+    "inorganic": "e4Fpbk87uCU8sZCTkh140DkfFaUP4A3aOyoosBim5WM=",
+    "bundle": "MKxMXwotabKorIP7vVtUw+rbX/PWrJA73o5xN+eAoc0="
    }
   }
  }
