@@ -732,6 +732,14 @@
         tp.disabled = true;
         tp.textContent = '特典問題ドリル（理論編）は未解放です';
       }
+      var ip = $('btn-pool-inorganic');
+      if (poolUnlocked('inorganic')) {
+        ip.disabled = false;
+        ip.textContent = '特典問題ドリル（無機編・' + PREMIUM_QS.filter(function (q) { return q._pool === 'inorganic'; }).length + '問）';
+      } else {
+        ip.disabled = true;
+        ip.textContent = '特典問題ドリル（無機編）は未解放です';
+      }
     }
     var list = $('premium-products'); list.innerHTML = '';
     (PCONF.products || []).forEach(function (p) {
@@ -791,6 +799,7 @@
     startDrill({ mode: 'exam', title: '模試', count: count, minutes: minutes });
   };
   $('btn-pool-theory').onclick = function () { startDrill({ mode: 'premium', pool: 'theory', title: '特典問題ドリル（理論編）' }); };
+  $('btn-pool-inorganic').onclick = function () { startDrill({ mode: 'premium', pool: 'inorganic', title: '特典問題ドリル（無機編）' }); };
   $('btn-q-next').onclick = nextQuestion;
   $('btn-num-check').onclick = answerNumeric;
   $('num-input').addEventListener('keydown', function (e) { if (e.key === 'Enter') answerNumeric(); });
