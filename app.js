@@ -175,6 +175,29 @@
   }
 
   /* ---------- カード ---------- */
+  /* 伏せ字: 文脈は表示したまま、重要語句（p.masks）だけを個別にマスクする。
+     入れ子対策に長い語句から順に分割する。 */
+  function renderPointText(p) {
+    if (!p.blind || !p.masks || !p.masks.length) return esc(p.text);
+    var segs = [{ t: p.text, m: false }];
+    p.masks.slice().sort(function (a, b) { return b.length - a.length; }).forEach(function (mask) {
+      var next = [];
+      segs.forEach(function (s) {
+        if (s.m) { next.push(s); return; }
+        var parts = s.t.split(mask);
+        parts.forEach(function (part, i) {
+          if (i > 0) next.push({ t: mask, m: true });
+          if (part) next.push({ t: part, m: false });
+        });
+      });
+      segs = next;
+    });
+    return segs.map(function (s) {
+      return s.m
+        ? '<span class="blind" tabindex="0" role="button">' + esc(s.t) + '</span>'
+        : esc(s.t);
+    }).join('');
+  }
   function openCard(id) {
     var c = findCard(id); if (!c) return;
     var d = $('card-detail');
@@ -182,7 +205,7 @@
     (c.points || []).forEach(function (p) {
       html += '<div class="point"><div class="plabel">' + esc(p.label) + '</div>' +
         (p.blind
-          ? '<p class="ptext"><span class="blind" tabindex="0" role="button">' + esc(p.text) + '</span></p><p class="muted">答えは伏せ字です。頭の中で思い描けてからタップで開示。</p>'
+          ? '<p class="ptext">' + renderPointText(p) + '</p><p class="muted">重要語句が伏せ字です。頭の中で思い描けてから、タップで1つずつ開示。</p>'
           : '<p class="ptext">' + esc(p.text) + '</p>') + '</div>';
     });
     html += '<p class="guide">この内容の「なぜ」と解き方は、まとめノート ' + esc(c.note || '') + ' で。</p>';
