@@ -740,6 +740,14 @@
         ip.disabled = true;
         ip.textContent = '特典問題ドリル（無機編）は未解放です';
       }
+      var op = $('btn-pool-organic');
+      if (poolUnlocked('organic')) {
+        op.disabled = false;
+        op.textContent = '特典問題ドリル（有機編 本編・' + PREMIUM_QS.filter(function (q) { return q._pool === 'organic'; }).length + '問）';
+      } else {
+        op.disabled = true;
+        op.textContent = '特典問題ドリル（有機編 本編）は未解放です';
+      }
     }
     var list = $('premium-products'); list.innerHTML = '';
     (PCONF.products || []).forEach(function (p) {
@@ -800,6 +808,7 @@
   };
   $('btn-pool-theory').onclick = function () { startDrill({ mode: 'premium', pool: 'theory', title: '特典問題ドリル（理論編）' }); };
   $('btn-pool-inorganic').onclick = function () { startDrill({ mode: 'premium', pool: 'inorganic', title: '特典問題ドリル（無機編）' }); };
+  $('btn-pool-organic').onclick = function () { startDrill({ mode: 'premium', pool: 'organic', title: '特典問題ドリル（有機編 本編）' }); };
   $('btn-q-next').onclick = nextQuestion;
   $('btn-num-check').onclick = answerNumeric;
   $('num-input').addEventListener('keydown', function (e) { if (e.key === 'Enter') answerNumeric(); });
