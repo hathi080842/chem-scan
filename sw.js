@@ -1,5 +1,5 @@
 /* 化学スキャン — Service Worker（オフライン対応・キャッシュ優先） */
-var CACHE = 'chem-scan-v6';
+var CACHE = 'chem-scan-v7';
 var FILES = ['index.html', 'styles.css', 'app.js', 'data.js', 'premium-config.js', 'manifest.json'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }));
